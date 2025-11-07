@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notepad</title>
+
+    <link rel="stylesheet" href="./styles/standard.css">
+    <link rel="stylesheet" href="./styles/assets.css">
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body onload="renderNotes()">
+    <header>
+        <a href="">Notes</a>
+        <a href="">Archive</a>
+        <a href="">Trash</a>
+    </header>
+
+    <main>
+
+        <h2>New Note/Task</h2>
+
+        <!-- <form id="newNoteForm" action="/next-page" method="post"> -->
+        
+            <label for="new_note_or_task">+ Note Task</label>
+            <input type="text" id="new_note_or_task" name="new_note_or_task">
+            <!-- <input type="button" value="Submit" onclick="addNote()"> -->
+            <button onclick="addNote()">Save Note</button>
+        
+        <!-- </form> -->
+
+        <div id="content"></div>
+
+    </main>
+</body>
+<script src="./script.js"></script>
+
+</html>
