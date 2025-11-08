@@ -25,18 +25,18 @@
         <!-- <form id="newNoteForm" action="/next-page" method="post"> -->
 
         <label for="new_note_or_task">+ Note Task</label>
-        <input type="text" id="new_note_or_task" name="new_note_or_task">
+        <input type="text" title="${content_title[index]}" id="content_item_the_text" name="new_note_or_task_text"
+            placeholder="Content of your Note or Task">
         <!-- <input type="button" value="Submit" onclick="addNote()"> -->
         <button onclick="addNote()">Save Note</button>
+        <button onclick="deleteNote()">Notiz löschen</button>
 
         <!-- </form> -->
 
         <div id="content"></div>
         <h2>trash</h2>
         <div id="trash_content"></div>
-
     </main>
-
 
     <!-- <div>
 
@@ -55,6 +55,17 @@
 
 
     </div> -->
+
+    <footer>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <h2>
+            © 2025 My Little Notepad Project
+        </h2>
+    </footer>
 </body>
 <script src="./script.js"></script>
 

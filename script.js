@@ -24,17 +24,26 @@ function renderTrashNotes() {
 }
 
 function getNoteTemplate(indexNote) {
-    return `<p>+ <title: ${notesTitles[indexNote]}
-    <button onclick="noteToTrash(${indexNote})"> 🗑️ Paper Bin
-    ${notes[indexNote]} X</button>
-    </p>`;  
+    return `
+    <div class="content_item">
+            <div id="content_item_the_text">
+            <p>The Note/Task: ${notesTitles[indexNote]}</p>
+        </div>
+        <button onclick="noteToTrash(${indexNote})">🗑️</button>
+    </div>`;
 }
 
 function getTrashNoteTemplate(indexTrashNote) {
-    return `<p>+ title: ${trashNotesTitles[indexTrashNote]}
+    return `<p>+ <title>Title: ${trashNotesTitles[indexTrashNote]}</title>
     <button onclick="deleteTrashNote(${indexTrashNote})">
     ${indexTrashNote} x</button>
     </p>`
+}
+
+// Hier unten an dieser Function arbeiten
+function saveTitle(indexNote, newTitle) {
+    notesTitles[indexNote] = newTitle;
+    renderNotes();
 }
 
 function addNote() {

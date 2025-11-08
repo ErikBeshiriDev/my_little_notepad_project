@@ -35,3 +35,16 @@ main {
     display: flex;
     flex-direction: column;
 }
+
+.content_item {
+    display: flex;
+    flex-direction: row;
+}
+
+.content_item button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
