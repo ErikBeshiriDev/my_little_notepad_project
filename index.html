@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 
-<body onload="renderNotes(); renderTrashNotes()">
+<body onload="init()">
     <header>
         <a href="">Notes</a>
         <a href="">Archive</a>
@@ -22,41 +22,27 @@
 
         <h2>New Note/Task</h2>
 
-        <!-- <form id="newNoteForm" action="/next-page" method="post"> -->
-
-        <label for="content_item_the_text">+ Note Task</label>
-        <input type="text" id="content_item_the_text" name="content_item_the_text"
-            placeholder="Content of your Note or Task">
-        <!-- <input type="button" value="Submit" onclick="addNote()"> -->
-        <button onclick="addNote()">Save Note/Task</button>
-
-        <!-- </form> -->
+        <form id="newNoteForm">
+            <label for="new_note_or_task">+ Note Task</label>
+            <input type="text" id="new_note_or_task" name="new_note_or_task" placeholder="Content of your Note or Task">
+            <button type="button" onclick="addNote()">Save Note/Task</button>
+        </form>
 
         <div id="content"></div>
-        <h2>trash</h2>
-        <div id="trash_content"></div>
-        <button onclick="deleteNote()">Notiz löschen</button>
+
+        <div class="archive_zone">
+            <h2>Archive</h2>
+            <div id="archive_content"></div>
+        </div>
+
+        <div class="trash_zone">
+            <h2>Trash</h2>
+            <div id="trash_content"></div>
+        </div>
+
     </main>
 
-    <!-- <div>
-
-        <h1>Notizblock</h1>
-        <input id="note_input" type="text">
-        <button onclick="addNote()">Notiz speichern</button>
-        <button onclick="deleteNote()">Notiz löschen</button>
-        <h2>notes</h2>
-        <div id="content">
-
-        </div>
-        <h2>trash</h2>
-        <div id="trash_content">
-
-        </div>
-
-
-    </div> -->
-
-    <footer>
+    <!-- <footer>
         <br> <br> <br> <br> <br> <br> <br> <br>
         <br> <br> <br> <br> <br> <br> <br> <br>
         <br> <br> <br> <br> <br> <br> <br> <br>
@@ -65,7 +51,7 @@
         <h2>
             © 2025 My Little Notepad Project
         </h2>
-    </footer>
+    </footer> -->
 </body>
 <script src="./script.js"></script>
 
