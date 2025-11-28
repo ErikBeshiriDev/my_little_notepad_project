@@ -9,16 +9,22 @@
     <link rel="stylesheet" href="./styles/standard.css">
     <link rel="stylesheet" href="./styles/assets.css">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/dialog.css">
 </head>
 
 <body onload="init()">
     <header>
         <a href="">Notes</a>
-        <a href="">Archive</a>
-        <a href="">Trash</a>
+        <a href="" onclick="showArchiveDialog(); return false;">Archive</a>
+        <a href="" onclick="showTrashDialog(); return false;">Trash</a>
+        <!-- <a href="" onclick="showArchiveDialog(event)">Archive</a> -->
+        <!-- <a href="" onclick="showTrashDialog(event)">Trash</a> -->
     </header>
 
     <main>
+        <div>
+            <div>Hallo im Trash-Bereich</div>
+        </div>
 
         <h2>New Note/Task</h2>
 
@@ -30,17 +36,34 @@
 
         <div id="content"></div>
 
-        <div class="archive_zone">
-            <h2>Archive</h2>
-            <div id="archive_content"></div>
-        </div>
+        <dialog class="myArchiveDialog">
+            <button onclick="closeArchiveDialog()">Schließen</button>
+            <div class="archive_zone">
+                <h2>Archive</h2>
+                <h2>Hallo im Archive-Bereich</h2>
+                <div id="archive_content"></div>
+            </div>
+        </dialog>
 
-        <div class="trash_zone">
-            <h2>Trash</h2>
-            <div id="trash_content"></div>
-        </div>
+        <dialog class="myTrashDialog">
+            <button onclick="closeTrashDialog()">Schließen</button>
+            <div class="trash_zone">
+                <h2>Trash</h2>
+                <h2>Hallo im Trash-Bereich</h2>
+                <div id="trash_content"></div>
+            </div>
+        </dialog>
+
+        <button onclick="showDialog()">open example button</button>
+
+        <dialog class="myDialog">
+            <button onclick="closeDialog()">Schließen</button>
+            <h2>Beispiel Dialog im Aufbau</h2>
+        </dialog>
 
     </main>
+
+
 
     <!-- <footer>
         <br> <br> <br> <br> <br> <br> <br> <br>

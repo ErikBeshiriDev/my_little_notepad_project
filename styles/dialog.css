@@ -1,0 +1,63 @@
+.myDialog,
+.myTrashDialog,
+.myArchiveDialog[open] {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.myDialog,
+.myTrashDialog,
+.myArchiveDialog {
+  height: 80vh;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  /* border: none; */
+
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  text-align: center;
+  overflow: auto;
+}
+
+.myDialog button,
+.myTrashDialog button,
+.myArchiveDialog button {
+display: flex;
+align-self: flex-end;
+}
+
+.myDialog::backdrop,
+.myTrashDialog::backdrop,
+.myArchiveDialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.myDialog:not([open]),
+.myTrashDialog:not([open]),
+.myArchiveDialog:not([open]) {
+  display: none;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  background: #3478f6;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2565d8;
+}

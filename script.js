@@ -7,7 +7,11 @@ let archiveNotes = [];
 let trashNotesTitles = [];
 let trashNotes = [];
 
-function init(  ) {
+const dlg = document.querySelector(".myDialog");
+const archiveDialog = document.querySelector(".myArchiveDialog");
+const trashDialog = document.querySelector(".myTrashDialog");
+
+function init() {
     renderNotes();
     renderTrashNotes();
     renderArchiveNotes();
@@ -71,7 +75,7 @@ function getArchiveNoteTemplate(indexArchiveNote) {
             <div class="item-header">
                 <span class="item-title" contenteditable="true"
                     onblur="saveTitle(${indexArchiveNote}, this.innerText) ">
-                  ${ archiveNotesTitles[indexArchiveNote] || 'Titel...' }
+                  ${archiveNotesTitles[indexArchiveNote] || 'Titel...'}
                 </span >
             </div >
     <p>${archiveNotes[indexArchiveNote]}</p>
@@ -153,11 +157,63 @@ function deleteTrashNote(indexTrashNote) {
     renderTrashNotes();
 }
 
-// Tile from the Notes:
+// function toggleOverlay() {
+//     let refOverlay = document.getElementById('myOverlayDialog');
+//     init();
 
-// function deleteNote(indexNote) {
-//     notes.splice(indexNote, 1);
-//     notesTitles.splice(indexNote, 1);
-//     renderNotes();
-//     renderTrashNotes();
+//     refOverlay.classList.toggle('dialog_hidden');
 // }
+
+function showDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.showModal();
+}
+
+function closeDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.close();
+}
+
+function closeArchiveDialog() {
+    if (!archiveDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archiveDialog.close();
+}
+
+function showArchiveDialog() {
+    if (!archiveDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archiveDialog.showModal();
+}
+
+
+function closeTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.close();
+}
+
+function showTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.showModal();
+}
+
+
+
+
+
