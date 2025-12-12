@@ -17,7 +17,8 @@ function init() {
     renderArchiveNotes();
 }
 
-function renderNotes(indexNote) {
+function renderNotes() {
+    console.log("Fehler 1.1");
     let contentRef = document.getElementById('content');
     contentRef.innerHTML = "";
 
@@ -44,21 +45,15 @@ function renderTrashNotes(indexTrashNote) {
     }
 }
 
-function saveTitle(indexNote, newTitle) {
-    notesTitles[indexNote] = String(newTitle || "").trim();
-    renderNotes();
-}
+//function saveTitle(indexNote, newTitle) {
+//    notesTitles[indexNote] = String(newTitle || "").trim();
+//    renderNotes();
+//}
 
 function getNoteTemplate(indexNote) {
     return `
     <div class="content_item">
         <div id="content_item_the_text">
-            <div class="item-header">
-                <span class="item-title" contenteditable="true"
-                    onblur="saveTitle(${indexNote}, this.innerText)">
-                  ${notesTitles[indexNote] || 'Titel...'}
-                </span>
-            </div>
             <p>${notes[indexNote]}</p>
         </div>
         <button onclick="noteToArchive(${indexNote})">🗂️</button>
@@ -72,12 +67,6 @@ function getArchiveNoteTemplate(indexArchiveNote) {
     return `
     <div class="content_item">
         <div id="archive_content_item_the_text">
-            <div class="item-header">
-                <span class="item-title" contenteditable="true"
-                    onblur="saveTitle(${indexArchiveNote}, this.innerText) ">
-                  ${archiveNotesTitles[indexArchiveNote] || 'Titel...'}
-                </span >
-            </div >
     <p>${archiveNotes[indexArchiveNote]}</p>
         </div >
         <button onclick="pushNoteFromArchiveBackToTheAnotherNotes(${indexArchiveNote})">↩️</button>
@@ -89,12 +78,6 @@ function getTrashNoteTemplate(indexTrashNote) {
     return `
     <div class="content_item">
         <div id="trash_content_item_the_text">
-            <div class="item-header">
-                <span class="item-title" contenteditable="true"
-                    onblur="saveTitle(${indexTrashNote}, this.innerText)">
-                  ${trashNotesTitles[indexTrashNote] || 'Titel...'}
-                </span>
-            </div>
             <p>${trashNotes[indexTrashNote]}</p>
         </div>
         <button onclick="pushNoteFromTrashBackToTheAnotherNotes(${indexTrashNote})">↩️</button>
@@ -107,7 +90,6 @@ function addNote() {
     let noteInput = noteInputRef ? noteInputRef.value : "";
     if (noteInput.trim() !== '') {
         notes.push(noteInput.trim());
-        notesTitles.push('');
         renderNotes();
         noteInputRef.value = "";
     } else {
@@ -115,7 +97,7 @@ function addNote() {
     }
 }
 
-function noteToArchive(indexNote, newTitle) {
+function noteToArchive(indexNote) {
     let toArchiveNote = notes.splice(indexNote, 1)[0];
     archiveNotes.push(toArchiveNote);
     renderNotes();
@@ -152,7 +134,6 @@ function noteFromNotesToTrash(indexNote) {
 
 function deleteTrashNote(indexTrashNote) {
     indexNote = indexTrashNote;
-    trashNotesTitles.splice(indexTrashNote, 1);
     trashNotes.splice(indexTrashNote, 1);
     renderTrashNotes();
 }
