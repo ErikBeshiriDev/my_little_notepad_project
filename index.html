@@ -15,8 +15,8 @@
 <body onload="init()">
     <header>
         <a href="">Notes</a>
-        <a href="" onclick="showArchiveDialog(); return false;">Archive</a>
-        <a href="" onclick="showTrashDialog(); return false;">Trash</a>
+        <!-- <a href="" onclick="showArchiveDialog(); return false;">Archive</a> -->
+        <!-- <a href="" onclick="showTrashDialog(); return false;">Trash</a> -->
         <!-- <a href="" onclick="showArchiveDialog(event)">Archive</a> -->
         <!-- <a href="" onclick="showTrashDialog(event)">Trash</a> -->
     </header>
@@ -30,7 +30,7 @@
 
         <form id="newNoteForm">
             <label for="new_note_or_task">+ Note Task</label>
-            <input type="text" id="new_title_for_the_note_or_task" name="new_title_for_the_note_or_task" placeholder="Content of your Note or Task">
+            <input type="text" id="new_title_for_the_note_or_task" name="new_title_for_the_note_or_task" placeholder="Title of your Note or Task">
             <input type="text" id="new_note_or_task" name="new_note_or_task" placeholder="Content of your Note or Task">
             <button type="button" onclick="addNote()">Save Note/Task</button>
         </form>

@@ -1,10 +1,5 @@
-let notesTitles = [];
 let notes = [];
-
-let archiveNotesTitles = [];
 let archiveNotes = [];
-
-let trashNotesTitles = [];
 let trashNotes = [];
 
 const dlg = document.querySelector(".myDialog");
@@ -13,12 +8,11 @@ const trashDialog = document.querySelector(".myTrashDialog");
 
 function init() {
     renderNotes();
-    renderTrashNotes();
-    renderArchiveNotes();
+    // renderTrashNotes();
+    // renderArchiveNotes();
 }
 
 function renderNotes() {
-    console.log("Fehler 1.1");
     let contentRef = document.getElementById('content');
     contentRef.innerHTML = "";
 
@@ -27,35 +21,29 @@ function renderNotes() {
     }
 }
 
-function renderArchiveNotes(indexArchiveNotes) {
-    let archiveContentRef = document.getElementById('archive_content')
-    archiveContentRef.innerHTML = "";
+// function renderArchiveNotes(indexArchiveNotes) {
+//     let archiveContentRef = document.getElementById('archive_content')
+//     archiveContentRef.innerHTML = "";
 
-    for (let indexArchiveNote = 0; indexArchiveNote < archiveNotes.length; indexArchiveNote++) {
-        archiveContentRef.innerHTML += getArchiveNoteTemplate(indexArchiveNote);
-    }
-}
+//     for (let indexArchiveNote = 0; indexArchiveNote < archiveNotes.length; indexArchiveNote++) {
+//         archiveContentRef.innerHTML += getArchiveNoteTemplate(indexArchiveNote);
+//     }
+// }
 
-function renderTrashNotes(indexTrashNote) {
-    let trashContentRef = document.getElementById('trash_content')
-    trashContentRef.innerHTML = "";
+// function renderTrashNotes(indexTrashNote) {
+//     let trashContentRef = document.getElementById('trash_content')
+//     trashContentRef.innerHTML = "";
 
-    for (let indexTrashNote = 0; indexTrashNote < trashNotes.length; indexTrashNote++) {
-        trashContentRef.innerHTML += getTrashNoteTemplate(indexTrashNote);
-    }
-}
-
-//function saveTitle(indexNote, newTitle) {
-//    notesTitles[indexNote] = String(newTitle || "").trim();
-//    renderNotes();
-//}
+//     for (let indexTrashNote = 0; indexTrashNote < trashNotes.length; indexTrashNote++) {
+//         trashContentRef.innerHTML += getTrashNoteTemplate(indexTrashNote);
+//     }
+// }
 
 function getNoteTemplate(indexNote) {
     return `
     <div class="content_item">
-        <div id="content_item_the_text">
-            <p>${notes[indexNote]}</p>
-        </div>
+        <h3>${notes[indexNote].title}</h3>
+        <p>${notes[indexNote].text}</p>
         <button onclick="noteToArchive(${indexNote})">🗂️</button>
         <button onclick="noteFromNotesToTrash(${indexNote})">❌ -> 🗑️</button>
     </div>`;
@@ -67,7 +55,7 @@ function getArchiveNoteTemplate(indexArchiveNote) {
     return `
     <div class="content_item">
         <div id="archive_content_item_the_text">
-    <p>${archiveNotes[indexArchiveNote]}</p>
+            <p>${archiveNotes[indexArchiveNote]}</p>
         </div >
         <button onclick="pushNoteFromArchiveBackToTheAnotherNotes(${indexArchiveNote})">↩️</button>
         <button onclick="noteFromArchiveToTrash(${indexArchiveNote})">❌ -> 🗑️</button>
@@ -86,16 +74,40 @@ function getTrashNoteTemplate(indexTrashNote) {
 }
 
 function addNote() {
-    let noteInputRef = document.getElementById('new_note_or_task');
-    let noteInput = noteInputRef ? noteInputRef.value : "";
-    if (noteInput.trim() !== '') {
-        notes.push(noteInput.trim());
-        renderNotes();
-        noteInputRef.value = "";
-    } else {
-        alert("Please enter a note or task before adding.");
+
+    let titleRef = document.getElementById('new_title_for_the_note_or_task');
+    let textRef = document.getElementById('new_note_or_task');
+
+    let title = titleRef.value.trim();
+    let text = textRef.value.trim();
+
+    if (text === "") {
+        alert("Bitte Text eingeben");
+        return;
     }
+
+    if (title === "") {
+        let wantsTitle = confirm("KeinTitel eingegeben. Willst du einen Titel schreiben?");
+        if (!wantsTitle) {
+            title = text.length > 10
+                ? text.slice(0, 10) + "..."
+                : text;
+        } else {
+            return; // User will Titel schreiben -> abbrechen   
+        }
+    }
+
+    notes.push({
+        title: title,
+        text: text
+    });
+
+    renderNotes();
+    titleRef.value = ""
+    textRef.value = ""
 }
+
+
 
 function noteToArchive(indexNote) {
     let toArchiveNote = notes.splice(indexNote, 1)[0];
@@ -104,39 +116,39 @@ function noteToArchive(indexNote) {
     renderArchiveNotes();
 }
 
-function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
-    let sendNoteBackToTheAnotherNotes = archiveNotes.splice(indexArchiveNote, 1)[0];
-    notes.push(sendNoteBackToTheAnotherNotes);
-    renderNotes();
-    renderArchiveNotes();
-}
+// function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
+//     let sendNoteBackToTheAnotherNotes = archiveNotes.splice(indexArchiveNote, 1)[0];
+//     notes.push(sendNoteBackToTheAnotherNotes);
+//     renderNotes();
+//     renderArchiveNotes();
+// }
 
-function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
-    let restoreNotetoTrash = trashNotes.splice(indexTrashNote, 1)[0];
-    notes.push(restoreNotetoTrash);
-    renderNotes();
-    renderTrashNotes();
-}
+// function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
+//     let restoreNotetoTrash = trashNotes.splice(indexTrashNote, 1)[0];
+//     notes.push(restoreNotetoTrash);
+//     renderNotes();
+//     renderTrashNotes();
+// }
 
-function noteFromArchiveToTrash(indexArchiveNote) {
-    let trashNoteFromArchive = archiveNotes.splice(indexArchiveNote, 1)[0];
-    trashNotes.push(trashNoteFromArchive);
-    renderArchiveNotes();
-    renderTrashNotes();
-}
+// function noteFromArchiveToTrash(indexArchiveNote) {
+//     let trashNoteFromArchive = archiveNotes.splice(indexArchiveNote, 1)[0];
+//     trashNotes.push(trashNoteFromArchive);
+//     renderArchiveNotes();
+//     renderTrashNotes();
+// }
 
-function noteFromNotesToTrash(indexNote) {
-    let trashNoteFromNotes = notes.splice(indexNote, 1)[0];
-    trashNotes.push(trashNoteFromNotes);
-    renderNotes();
-    renderTrashNotes();
-}
+// function noteFromNotesToTrash(indexNote) {
+//     let trashNoteFromNotes = notes.splice(indexNote, 1)[0];
+//     trashNotes.push(trashNoteFromNotes);
+//     renderNotes();
+//     renderTrashNotes();
+// }
 
-function deleteTrashNote(indexTrashNote) {
-    indexNote = indexTrashNote;
-    trashNotes.splice(indexTrashNote, 1);
-    renderTrashNotes();
-}
+// function deleteTrashNote(indexTrashNote) {
+//     indexNote = indexTrashNote;
+//     trashNotes.splice(indexTrashNote, 1);
+//     renderTrashNotes();
+// }
 
 // function toggleOverlay() {
 //     let refOverlay = document.getElementById('myOverlayDialog');
@@ -145,54 +157,6 @@ function deleteTrashNote(indexTrashNote) {
 //     refOverlay.classList.toggle('dialog_hidden');
 // }
 
-function showDialog() {
-    if (!dlg) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    dlg.showModal();
-}
-
-function closeDialog() {
-    if (!dlg) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    dlg.close();
-}
-
-function closeArchiveDialog() {
-    if (!archiveDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    archiveDialog.close();
-}
-
-function showArchiveDialog() {
-    if (!archiveDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    archiveDialog.showModal();
-}
-
-
-function closeTrashDialog() {
-    if (!trashDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    trashDialog.close();
-}
-
-function showTrashDialog() {
-    if (!trashDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    trashDialog.showModal();
-}
 
 
 
