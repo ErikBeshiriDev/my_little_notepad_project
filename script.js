@@ -8,8 +8,8 @@ const trashDialog = document.querySelector(".myTrashDialog");
 
 function init() {
     renderNotes();
-    // renderTrashNotes();
-    // renderArchiveNotes();
+    renderTrashNotes();
+    renderArchiveNotes();
 }
 
 function renderNotes() {
@@ -21,23 +21,23 @@ function renderNotes() {
     }
 }
 
-// function renderArchiveNotes(indexArchiveNotes) {
-//     let archiveContentRef = document.getElementById('archive_content')
-//     archiveContentRef.innerHTML = "";
+function renderArchiveNotes(indexArchiveNotes) {
+    let archiveContentRef = document.getElementById('archive_content')
+    archiveContentRef.innerHTML = "";
 
-//     for (let indexArchiveNote = 0; indexArchiveNote < archiveNotes.length; indexArchiveNote++) {
-//         archiveContentRef.innerHTML += getArchiveNoteTemplate(indexArchiveNote);
-//     }
-// }
+    for (let indexArchiveNote = 0; indexArchiveNote < archiveNotes.length; indexArchiveNote++) {
+        archiveContentRef.innerHTML += getArchiveNoteTemplate(indexArchiveNote);
+    }
+}
 
-// function renderTrashNotes(indexTrashNote) {
-//     let trashContentRef = document.getElementById('trash_content')
-//     trashContentRef.innerHTML = "";
+function renderTrashNotes(indexTrashNote) {
+    let trashContentRef = document.getElementById('trash_content')
+    trashContentRef.innerHTML = "";
 
-//     for (let indexTrashNote = 0; indexTrashNote < trashNotes.length; indexTrashNote++) {
-//         trashContentRef.innerHTML += getTrashNoteTemplate(indexTrashNote);
-//     }
-// }
+    for (let indexTrashNote = 0; indexTrashNote < trashNotes.length; indexTrashNote++) {
+        trashContentRef.innerHTML += getTrashNoteTemplate(indexTrashNote);
+    }
+}
 
 function getNoteTemplate(indexNote) {
     return `
@@ -97,6 +97,8 @@ function addNote() {
         }
     }
 
+    // Ist die Function zu lang bzw. Bis 14 Zeilen!?!?
+
     notes.push({
         title: title,
         text: text
@@ -113,42 +115,44 @@ function noteToArchive(indexNote) {
     let toArchiveNote = notes.splice(indexNote, 1)[0];
     archiveNotes.push(toArchiveNote);
     renderNotes();
+    console.log("Fehler 1 ist unten");
     renderArchiveNotes();
 }
 
-// function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
-//     let sendNoteBackToTheAnotherNotes = archiveNotes.splice(indexArchiveNote, 1)[0];
-//     notes.push(sendNoteBackToTheAnotherNotes);
-//     renderNotes();
-//     renderArchiveNotes();
-// }
+function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
+    let sendNoteBackToTheAnotherNotes = archiveNotes.splice(indexArchiveNote, 1)[0];
+    notes.push(sendNoteBackToTheAnotherNotes);
+    renderNotes();
+    renderArchiveNotes();
+}
 
-// function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
-//     let restoreNotetoTrash = trashNotes.splice(indexTrashNote, 1)[0];
-//     notes.push(restoreNotetoTrash);
-//     renderNotes();
-//     renderTrashNotes();
-// }
+function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
+    let restoreNotetoTrash = trashNotes.splice(indexTrashNote, 1)[0];
+    notes.push(restoreNotetoTrash);
+    renderNotes();
+    renderTrashNotes();
+}
 
-// function noteFromArchiveToTrash(indexArchiveNote) {
-//     let trashNoteFromArchive = archiveNotes.splice(indexArchiveNote, 1)[0];
-//     trashNotes.push(trashNoteFromArchive);
-//     renderArchiveNotes();
-//     renderTrashNotes();
-// }
+function noteFromArchiveToTrash(indexArchiveNote) {
+    let trashNoteFromArchive = archiveNotes.splice(indexArchiveNote, 1)[0];
+    trashNotes.push(trashNoteFromArchive);
+    renderArchiveNotes();
+    renderTrashNotes();
+}
 
-// function noteFromNotesToTrash(indexNote) {
-//     let trashNoteFromNotes = notes.splice(indexNote, 1)[0];
-//     trashNotes.push(trashNoteFromNotes);
-//     renderNotes();
-//     renderTrashNotes();
-// }
+function noteFromNotesToTrash(indexNote) {
+    let trashNoteFromNotes = notes.splice(indexNote, 1)[0];
+    trashNotes.push(trashNoteFromNotes);
+    renderNotes();
+    console.log("Fehler 2 ist unten");
+    renderTrashNotes();
+}
 
-// function deleteTrashNote(indexTrashNote) {
-//     indexNote = indexTrashNote;
-//     trashNotes.splice(indexTrashNote, 1);
-//     renderTrashNotes();
-// }
+function deleteTrashNote(indexTrashNote) {
+    indexNote = indexTrashNote;
+    trashNotes.splice(indexTrashNote, 1);
+    renderTrashNotes();
+}
 
 // function toggleOverlay() {
 //     let refOverlay = document.getElementById('myOverlayDialog');
@@ -157,6 +161,53 @@ function noteToArchive(indexNote) {
 //     refOverlay.classList.toggle('dialog_hidden');
 // }
 
+function showDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.showModal();
+}
+
+function closeDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.close();
+}
+
+function closeArchiveDialog() {
+    if (!archiveDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archiveDialog.close();
+}
+
+function showArchiveDialog() {
+    if (!archiveDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archiveDialog.showModal();
+}
+
+function closeTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.close();
+}
+
+function showTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.showModal();
+}
 
 
 
