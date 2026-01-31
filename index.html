@@ -13,6 +13,11 @@
 </head>
 
 <body onload="init()">
+    <h1>Local Storage</h1>
+
+    <input id="data_input" type="text">
+    <button onclick="saveData()">save</button>      
+
     <header>
         <a href="">Notes</a>
         <a href="" onclick="showArchiveDialog(); return false;">Archive</a>
@@ -30,7 +35,8 @@
 
         <form id="newNoteForm">
             <label for="new_note_or_task">+ Note Task</label>
-            <input type="text" id="new_title_for_the_note_or_task" name="new_title_for_the_note_or_task" placeholder="Title of your Note or Task">
+            <input type="text" id="new_title_for_the_note_or_task" name="new_title_for_the_note_or_task"
+                placeholder="Title of your Note or Task">
             <input type="text" id="new_note_or_task" name="new_note_or_task" placeholder="Content of your Note or Task">
             <button type="button" onclick="addNote()">Save Note/Task</button>
         </form>
@@ -66,16 +72,11 @@
 
 
 
-    <!-- <footer>
-        <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br>
+    <footer>
         <h2>
             © 2025 My Little Notepad Project
         </h2>
-    </footer> -->
+    </footer>
 </body>
 <script src="./script.js"></script>
 

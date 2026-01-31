@@ -6,7 +6,61 @@ const dlg = document.querySelector(".myDialog");
 const archiveDialog = document.querySelector(".myArchiveDialog");
 const trashDialog = document.querySelector(".myTrashDialog");
 
+let myCat = Mumpi
+
+// ------------------------------------------------------------------------------------------------
+function saveData() {
+    let inputRef = document.getElementById('data_input');
+
+    if (inputRef.value != "") {
+        myData.push(inputRef.value);
+    }
+
+    saveToLocalStorage();
+
+    render();
+    inputRef.value = "";
+}
+
+
+function saveToLocalStorage() {
+    localStorage.setItem("content", JSON.stringify(notes));
+    localStorage.setItem("myArchiveDialog", JSON.stringify(archiveNotes));
+    localStorage.setItem("myTrashDialog", JSON.stringify(trashNotes));
+}
+
+
+// function getFromLocalStorage() {
+//     let cat = localStorage.getItem("myData");
+//     let obj = JSON.parse(cat);
+//     console.log(obj);
+// }
+
+
+function getFromLocalStorage() {
+    let cat = localStorage.getItem("myData");
+    let obj = JSON.parse(cat);
+    console.log(obj);
+}
+
+
+function render() {
+    let contentRef = document.getElementById('content');
+    contentRef.innerHTML = "";
+
+    for (let index = 0; index < myData.length; index++) {
+        contentRef.innerHTML += `<p>${myData[index]}</p>`
+    }
+}
+// ------------------------------------------------------------------------------------------------
+
 function init() {
+    // localStorage.setItem("myCat", "Waldemar");
+
+    console.log(myData);
+    console.log(JSON.stringify(myData));    
+    saveToLocalStorage();   
+    getFromLocalStorange();
     renderNotes();
     renderTrashNotes();
     renderArchiveNotes();
