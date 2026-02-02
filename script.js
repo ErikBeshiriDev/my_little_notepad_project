@@ -1,70 +1,51 @@
+// STATE
+
 let notes = [];
 let archiveNotes = [];
 let trashNotes = [];
+
+// DIALOGE
 
 const dlg = document.querySelector(".myDialog");
 const archiveDialog = document.querySelector(".myArchiveDialog");
 const trashDialog = document.querySelector(".myTrashDialog");
 
-let myCat = Mumpi
-
-// ------------------------------------------------------------------------------------------------
-function saveData() {
-    let inputRef = document.getElementById('data_input');
-
-    if (inputRef.value != "") {
-        myData.push(inputRef.value);
-    }
-
-    saveToLocalStorage();
-
-    render();
-    inputRef.value = "";
-}
-
+// LOCAL STORAGE
 
 function saveToLocalStorage() {
     localStorage.setItem("content", JSON.stringify(notes));
-    localStorage.setItem("myArchiveDialog", JSON.stringify(archiveNotes));
-    localStorage.setItem("myTrashDialog", JSON.stringify(trashNotes));
+    localStorage.setItem("archiveDialog", JSON.stringify(archiveNotes));
+    localStorage.setItem("trashDialog", JSON.stringify(trashNotes));
 }
-
-
-// function getFromLocalStorage() {
-//     let cat = localStorage.getItem("myData");
-//     let obj = JSON.parse(cat);
-//     console.log(obj);
-// }
-
 
 function getFromLocalStorage() {
-    let cat = localStorage.getItem("myData");
-    let obj = JSON.parse(cat);
-    console.log(obj);
-}
+    let notesLS = localStorange.getItem("content");
+    let archiveLS = localStorange.getItem("archivDialog");
+    let trashLS = localStorange.getItem("trashDialog");
 
+    if (notesLS) {
+        notes = JSON.parse(notesLS);
+    }
 
-function render() {
-    let contentRef = document.getElementById('content');
-    contentRef.innerHTML = "";
+    if (archiveLS) {
+        archiveNotes = JSON.parse(archiveLS);
+    }
 
-    for (let index = 0; index < myData.length; index++) {
-        contentRef.innerHTML += `<p>${myData[index]}</p>`
+    if (trashLS) {
+        trashNotes = JSON.parse(trashLS);
     }
 }
-// ------------------------------------------------------------------------------------------------
+
+// INIT
 
 function init() {
-    // localStorage.setItem("myCat", "Waldemar");
-
-    console.log(myData);
-    console.log(JSON.stringify(myData));    
-    saveToLocalStorage();   
-    getFromLocalStorange();
+    getFromLocalStorage();
     renderNotes();
-    renderTrashNotes();
     renderArchiveNotes();
+    renderTrashNotes();
 }
+
+// RENDER
 
 function renderNotes() {
     let contentRef = document.getElementById('content');
@@ -93,6 +74,8 @@ function renderTrashNotes(indexTrashNote) {
     }
 }
 
+// TEMPLATES
+
 function getNoteTemplate(indexNote) {
     return `
     <div class="content_item">
@@ -109,7 +92,8 @@ function getArchiveNoteTemplate(indexArchiveNote) {
     return `
     <div class="content_item">
         <div id="archive_content_item_the_text">
-            <p>${archiveNotes[indexArchiveNote]}</p>
+            <h3>${archiveNotes[indexArchiveNote].title}</h3>
+            <p>${archiveNotes[indexArchiveNote].text}</p>
         </div >
         <button onclick="pushNoteFromArchiveBackToTheAnotherNotes(${indexArchiveNote})">↩️</button>
         <button onclick="noteFromArchiveToTrash(${indexArchiveNote})">❌ -> 🗑️</button>
@@ -120,12 +104,15 @@ function getTrashNoteTemplate(indexTrashNote) {
     return `
     <div class="content_item">
         <div id="trash_content_item_the_text">
-            <p>${trashNotes[indexTrashNote]}</p>
+            <p>${trashNotes[indexTrashNote].title}</p>
+            <p>${trashNotes[indexTrashNote].text}</p>
         </div>
         <button onclick="pushNoteFromTrashBackToTheAnotherNotes(${indexTrashNote})">↩️</button>
         <button onclick="deleteTrashNote(${indexTrashNote})">🗑️</button>
     </div > `;
 }
+
+// ADD NOTE
 
 function addNote() {
 
@@ -158,18 +145,22 @@ function addNote() {
         text: text
     });
 
+        let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
+    let textRef = document.getElementById('new_note_or_task');
+
+    saveToLocalStorage();
     renderNotes();
     titleRef.value = ""
     textRef.value = ""
 }
 
-
+// MOVE FUNCTIONS
 
 function noteToArchive(indexNote) {
     let toArchiveNote = notes.splice(indexNote, 1)[0];
     archiveNotes.push(toArchiveNote);
+    saveToLocalStorage();
     renderNotes();
-    console.log("Fehler 1 ist unten");
     renderArchiveNotes();
 }
 
@@ -178,6 +169,7 @@ function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
     notes.push(sendNoteBackToTheAnotherNotes);
     renderNotes();
     renderArchiveNotes();
+    saveToLocalStorage();
 }
 
 function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
@@ -185,6 +177,7 @@ function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
     notes.push(restoreNotetoTrash);
     renderNotes();
     renderTrashNotes();
+    saveToLocalStorage();
 }
 
 function noteFromArchiveToTrash(indexArchiveNote) {
@@ -192,20 +185,21 @@ function noteFromArchiveToTrash(indexArchiveNote) {
     trashNotes.push(trashNoteFromArchive);
     renderArchiveNotes();
     renderTrashNotes();
+    saveToLocalStorage();
 }
 
 function noteFromNotesToTrash(indexNote) {
     let trashNoteFromNotes = notes.splice(indexNote, 1)[0];
     trashNotes.push(trashNoteFromNotes);
     renderNotes();
-    console.log("Fehler 2 ist unten");
     renderTrashNotes();
+    saveToLocalStorage();
 }
 
 function deleteTrashNote(indexTrashNote) {
-    indexNote = indexTrashNote;
     trashNotes.splice(indexTrashNote, 1);
     renderTrashNotes();
+    saveToLocalStorage();
 }
 
 // function toggleOverlay() {
@@ -214,6 +208,8 @@ function deleteTrashNote(indexTrashNote) {
 
 //     refOverlay.classList.toggle('dialog_hidden');
 // }
+
+// DIALOG CONTROL
 
 function showDialog() {
     if (!dlg) {
