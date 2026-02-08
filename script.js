@@ -1,14 +1,37 @@
-// STATE
+// JS Old Version with Objects
+ 
+// Exkurs: Notizblock verbessern mit Objekten / Excursus: Improving the notepad with objects
 
-let notes = [];
-let archiveNotes = [];
-let trashNotes = [];
+let allNotes {
+    'notes': [],
+    'archiveNotes': [],
+    'trashNotes': [],
+}
 
 // DIALOGE
 
 const dlg = document.querySelector(".myDialog");
 const archiveDialog = document.querySelector(".myArchiveDialog");
 const trashDialog = document.querySelector(".myTrashDialog");
+
+// --------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+// JS Old Version without Objects
+
+// STATE
+
+// let notes = [];
+// let archiveNotes = [];
+// let trashNotes = [];
+
+// DIALOGE
+
+// const dlg = document.querySelector(".myDialog");
+// const archiveDialog = document.querySelector(".myArchiveDialog");
+// const trashDialog = document.querySelector(".myTrashDialog");
 
 // LOCAL STORAGE
 
@@ -145,7 +168,7 @@ function addNote() {
         text: text
     });
 
-        let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
+    let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
     let textRef = document.getElementById('new_note_or_task');
 
     saveToLocalStorage();
