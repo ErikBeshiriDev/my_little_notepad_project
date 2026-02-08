@@ -8,6 +8,19 @@ let allNotes {
     'trashNotes': [],
 }
 
+function moveNote(indexNote, startKey, destinationKey) {
+    let note = allNotes[startKey].splice(indexNote,1);
+    allNotes[destinationKey + Titles].push(notesTitle[0]);
+
+    renderAllNotes();
+}
+
+function renderAllNotes() {
+    renderNotes();
+    renderArchiveNotes();
+    renderTrashNotes();
+}
+
 // DIALOGE
 
 const dlg = document.querySelector(".myDialog");
