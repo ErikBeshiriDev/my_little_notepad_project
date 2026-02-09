@@ -3,10 +3,13 @@
 // Exkurs: Notizblock verbessern mit Objekten / Excursus: Improving the notepad with objects
 
 let allNotes {
+    'notesTitle': [],
     'notes': [],
+    'archivNotesTitle': [],
     'archivNotes': [],
-    'trashNotes': [],
-}
+    'trashNotes': [];
+    'trashNotesTitle': [];
+};
 
 function moveNote(indexNote, startKey, destinationKey) {
     let note = allNotes[startKey].splice(indexNote, 1);
@@ -59,9 +62,7 @@ function getFromLocalStorage() {
 
 function init() {
     getFromLocalStorage();
-    renderNotes();
-    renderArchivNotes();
-    renderTrashNotes();
+    renderAllNotes();
 }
 
 // RENDER
@@ -163,12 +164,62 @@ function addNote() {
     });
 
     let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
-    let textRef = document.getElementById('new_note_or_task');
+    let inputTextRef = document.getElementById('new_note_or_task');
 
     saveToLocalStorage();
     renderNotes();
     titleRef.value = ""
     textRef.value = ""
+}
+
+// DIALOG CONTROL
+
+function showDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.showModal();
+}
+
+function closeDialog() {
+    if (!dlg) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    dlg.close();
+}
+
+function closeArchivDialog() {
+    if (!archivDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archivDialog.close();
+}
+
+function showArchivDialog() {
+    if (!archivDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    archivDialog.showModal();
+}
+
+function closeTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.close();
+}
+
+function showTrashDialog() {
+    if (!trashDialog) {
+        console.error("Dialog element not found!");
+        return;
+    }
+    trashDialog.showModal();
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -389,53 +440,53 @@ function addNote() {
 
 // DIALOG CONTROL
 
-function showDialog() {
-    if (!dlg) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    dlg.showModal();
-}
+// function showDialog() {
+//     if (!dlg) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     dlg.showModal();
+// }
 
-function closeDialog() {
-    if (!dlg) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    dlg.close();
-}
+// function closeDialog() {
+//     if (!dlg) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     dlg.close();
+// }
 
-function closeArchivDialog() {
-    if (!archivDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    archivDialog.close();
-}
+// function closeArchivDialog() {
+//     if (!archivDialog) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     archivDialog.close();
+// }
 
-function showArchivDialog() {
-    if (!archivDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    archivDialog.showModal();
-}
+// function showArchivDialog() {
+//     if (!archivDialog) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     archivDialog.showModal();
+// }
 
-function closeTrashDialog() {
-    if (!trashDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    trashDialog.close();
-}
+// function closeTrashDialog() {
+//     if (!trashDialog) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     trashDialog.close();
+// }
 
-function showTrashDialog() {
-    if (!trashDialog) {
-        console.error("Dialog element not found!");
-        return;
-    }
-    trashDialog.showModal();
-}
+// function showTrashDialog() {
+//     if (!trashDialog) {
+//         console.error("Dialog element not found!");
+//         return;
+//     }
+//     trashDialog.showModal();
+// }
 
 
 
