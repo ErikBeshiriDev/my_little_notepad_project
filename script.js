@@ -46,7 +46,7 @@ function getNoteTemplate(indexNote) {
         <h3>${notes[indexNote].title}</h3>
         <p>${notes[indexNote].text}</p>
         <button onclick="moveNote(${indexNote},'notes', 'archivNotes')">🗂️</button>
-        <button onclick="moveNote(${indexNote},'notes', 'archivNotes')">❌ -> 🗑️</button>
+        <button onclick="moveNote(${indexNote},'notes', 'trashNotes')">❌ -> 🗑️</button>
     </div>`;
 }
 
@@ -57,8 +57,8 @@ function getArchivNoteTemplate(indexArchivNote) {
             <h3>${archivNotes[indexArchivNote].title}</h3>
             <p>${archivNotes[indexArchivNote].text}</p>
         </div >
-        <button onclick="pushNoteFromArchivBackToTheAnotherNotes(${indexArchivNote})">↩️</button>
-        <button onclick="noteFromArchivToTrash(${indexArchivNote})">❌ -> 🗑️</button>
+        <button onclick="moveNote(${indexNote},'archivNotes', 'notes')">↩️</button>
+        <button onclick="moveNote(${indexNote},'archivNotes', 'trashNotes')">❌ -> 🗑️</button>
     </div > `;
 }
 
@@ -69,8 +69,8 @@ function getTrashNoteTemplate(indexTrashNote) {
             <p>${trashNotes[indexTrashNote].title}</p>
             <p>${trashNotes[indexTrashNote].text}</p>
         </div>
-        <button onclick="pushNoteFromTrashBackToTheAnotherNotes(${indexTrashNote})">↩️</button>
-        <button onclick="deleteTrashNote(${indexTrashNote})">🗑️</button>
+        <button onclick="moveNote(${indexNote},'trashNotes', 'notes')">↩️</button>
+        <button onclick="moveNote(${indexNote},'trashNotes', 'archivNotes')">🗑️</button>
     </div > `;
 }
 
