@@ -146,7 +146,7 @@ function addNote() {
     });
 
     let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
-    let textRef = document.getElementById('new_note_or_task');
+    let inputTextRef = document.getElementById('new_note_or_task');
 
     saveToLocalStorage();
     renderNotes();
