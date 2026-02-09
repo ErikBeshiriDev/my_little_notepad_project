@@ -1,5 +1,5 @@
 // JS Old Version with Objects
- 
+
 // Exkurs: Notizblock verbessern mit Objekten / Excursus: Improving the notepad with objects
 
 let allNotes {
@@ -9,10 +9,10 @@ let allNotes {
 }
 
 function moveNote(indexNote, startKey, destinationKey) {
-    let note = allNotes[startKey].splice(indexNote,1);
+    let note = allNotes[startKey].splice(indexNote, 1);
     allNotes[destinationKey + Titles].push(note[0]);
 
-    let notesTitle = allNotes[startKey].splice(indexNote,1 )
+    let notesTitle = allNotes[startKey].splice(indexNote, 1)
 
     renderAllNotes();
 }
@@ -29,6 +29,32 @@ const dlg = document.querySelector(".myDialog");
 const archivDialog = document.querySelector(".myArchivDialog");
 const trashDialog = document.querySelector(".myTrashDialog");
 
+// LOCAL STORAGE
+
+function saveToLocalStorage() {
+    localStorage.setItem("content", JSON.stringify(allNotes.notes));
+    localStorage.setItem("archivDialog", JSON.stringify(allNotes.archivNotes));
+    localStorage.setItem("trashDialog", JSON.stringify(allNotes.trashNotes));
+}
+
+function getFromLocalStorage() {
+    let notesLS = localStorange.getItem("content");
+    let archivLS = localStorange.getItem("archivDialog");
+    let trashLS = localStorange.getItem("trashDialog");
+
+    if (notesLS) {
+        allNotes.notes = JSON.parse(notesLS);
+    }
+
+    if (archivLS) {
+        allNotes.archivNotes = JSON.parse(archivLS);
+    }
+
+    if (trashLS) {
+        allNotes.trashNotes = JSON.parse(trashLS);
+    }
+}
+
 // INIT
 
 function init() {
@@ -36,6 +62,35 @@ function init() {
     renderNotes();
     renderArchivNotes();
     renderTrashNotes();
+}
+
+// RENDER
+
+function renderNotes() {
+    let contentRef = document.getElementById('content');
+    contentRef.innerHTML = "";
+
+    for (let indexNote = 0; indexNote < allNotes.notes.length; indexNote++) {
+        contentRef.innerHTML += getNoteTemplate(indexNote);
+    }
+}
+
+function renderArchivNotes(indexArchivNotes) {
+    let archivContentRef = document.getElementById('archiv_content')
+    archivContentRef.innerHTML = "";
+
+    for (let indexArchivNote = 0; indexArchivNote < allNotes.archivNotes.length; indexArchivNote++) {
+        archivContentRef.innerHTML += getArchivNoteTemplate(indexArchivNote);
+    }
+}
+
+function renderTrashNotes(indexTrashNote) {
+    let trashContentRef = document.getElementById('trash_content')
+    trashContentRef.innerHTML = "";
+
+    for (let indexTrashNote = 0; indexTrashNote < allNotes.trashNotes.length; indexTrashNote++) {
+        trashContentRef.innerHTML += getTrashNoteTemplate(indexTrashNote);
+    }
 }
 
 // TEMPLATES
@@ -74,6 +129,48 @@ function getTrashNoteTemplate(indexTrashNote) {
     </div > `;
 }
 
+// ADD NOTE
+
+function addNote() {
+
+    let titleRef = document.getElementById('new_title_for_the_note_or_task');
+    let textRef = document.getElementById('new_note_or_task');
+
+    let title = titleRef.value.trim();
+    let text = textRef.value.trim();
+
+    if (text === "") {
+        alert("Bitte Text eingeben");
+        return;
+    }
+
+    if (title === "") {
+        let wantsTitle = confirm("KeinTitel eingegeben. Willst du einen Titel schreiben?");
+        if (!wantsTitle) {
+            title = text.length > 10
+                ? text.slice(0, 10) + "..."
+                : text;
+        } else {
+            return; // User will Titel schreiben -> abbrechen   
+        }
+    }
+
+    // Ist die Function zu lang bzw. Bis 14 Zeilen!?!?
+
+    allNotes.notes.push({
+        title: title,
+        text: text
+    });
+
+    let inputTitelRef = document.getElementById('new_title_for_the_note_or_task');
+    let textRef = document.getElementById('new_note_or_task');
+
+    saveToLocalStorage();
+    renderNotes();
+    titleRef.value = ""
+    textRef.value = ""
+}
+
 // --------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -99,7 +196,7 @@ function saveToLocalStorage() {
     localStorage.setItem("content", JSON.stringify(notes));
     localStorage.setItem("archivDialog", JSON.stringify(archivNotes));
     localStorage.setItem("trashDialog", JSON.stringify(trashNotes));
-
+}
 
 function getFromLocalStorage() {
     let notesLS = localStorange.getItem("content");
