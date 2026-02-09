@@ -4,28 +4,75 @@
 
 let allNotes {
     'notes': [],
-    'archiveNotes': [],
+    'archivNotes': [],
     'trashNotes': [],
 }
 
 function moveNote(indexNote, startKey, destinationKey) {
     let note = allNotes[startKey].splice(indexNote,1);
-    allNotes[destinationKey + Titles].push(notesTitle[0]);
+    allNotes[destinationKey + Titles].push(note[0]);
+
+    let notesTitle = allNotes[startKey].splice(indexNote,1 )
 
     renderAllNotes();
 }
 
 function renderAllNotes() {
     renderNotes();
-    renderArchiveNotes();
+    renderArchivNotes();
     renderTrashNotes();
 }
 
 // DIALOGE
 
 const dlg = document.querySelector(".myDialog");
-const archiveDialog = document.querySelector(".myArchiveDialog");
+const archivDialog = document.querySelector(".myArchivDialog");
 const trashDialog = document.querySelector(".myTrashDialog");
+
+// INIT
+
+function init() {
+    getFromLocalStorage();
+    renderNotes();
+    renderArchivNotes();
+    renderTrashNotes();
+}
+
+// TEMPLATES
+
+function getNoteTemplate(indexNote) {
+    return `
+    <div class="content_item">
+        <h3>${notes[indexNote].title}</h3>
+        <p>${notes[indexNote].text}</p>
+        <button onclick="moveNote(${indexNote},'notes', 'archivNotes')">🗂️</button>
+        <button onclick="moveNote(${indexNote},'notes', 'archivNotes')">❌ -> 🗑️</button>
+    </div>`;
+}
+
+function getArchivNoteTemplate(indexArchivNote) {
+    return `
+    <div class="content_item">
+        <div id="archiv_content_item_the_text">
+            <h3>${archivNotes[indexArchivNote].title}</h3>
+            <p>${archivNotes[indexArchivNote].text}</p>
+        </div >
+        <button onclick="pushNoteFromArchivBackToTheAnotherNotes(${indexArchivNote})">↩️</button>
+        <button onclick="noteFromArchivToTrash(${indexArchivNote})">❌ -> 🗑️</button>
+    </div > `;
+}
+
+function getTrashNoteTemplate(indexTrashNote) {
+    return `
+    <div class="content_item">
+        <div id="trash_content_item_the_text">
+            <p>${trashNotes[indexTrashNote].title}</p>
+            <p>${trashNotes[indexTrashNote].text}</p>
+        </div>
+        <button onclick="pushNoteFromTrashBackToTheAnotherNotes(${indexTrashNote})">↩️</button>
+        <button onclick="deleteTrashNote(${indexTrashNote})">🗑️</button>
+    </div > `;
+}
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -37,34 +84,34 @@ const trashDialog = document.querySelector(".myTrashDialog");
 // STATE
 
 // let notes = [];
-// let archiveNotes = [];
+// let archivNotes = [];
 // let trashNotes = [];
 
 // DIALOGE
 
 // const dlg = document.querySelector(".myDialog");
-// const archiveDialog = document.querySelector(".myArchiveDialog");
+// const archivDialog = document.querySelector(".myArchivDialog");
 // const trashDialog = document.querySelector(".myTrashDialog");
 
 // LOCAL STORAGE
 
 function saveToLocalStorage() {
     localStorage.setItem("content", JSON.stringify(notes));
-    localStorage.setItem("archiveDialog", JSON.stringify(archiveNotes));
+    localStorage.setItem("archivDialog", JSON.stringify(archivNotes));
     localStorage.setItem("trashDialog", JSON.stringify(trashNotes));
-}
+
 
 function getFromLocalStorage() {
     let notesLS = localStorange.getItem("content");
-    let archiveLS = localStorange.getItem("archivDialog");
+    let archivLS = localStorange.getItem("archivDialog");
     let trashLS = localStorange.getItem("trashDialog");
 
     if (notesLS) {
         notes = JSON.parse(notesLS);
     }
 
-    if (archiveLS) {
-        archiveNotes = JSON.parse(archiveLS);
+    if (archivLS) {
+        archivNotes = JSON.parse(archivLS);
     }
 
     if (trashLS) {
@@ -77,7 +124,7 @@ function getFromLocalStorage() {
 function init() {
     getFromLocalStorage();
     renderNotes();
-    renderArchiveNotes();
+    renderArchivNotes();
     renderTrashNotes();
 }
 
@@ -92,12 +139,12 @@ function renderNotes() {
     }
 }
 
-function renderArchiveNotes(indexArchiveNotes) {
-    let archiveContentRef = document.getElementById('archive_content')
-    archiveContentRef.innerHTML = "";
+function renderArchivNotes(indexArchivNotes) {
+    let archivContentRef = document.getElementById('archiv_content')
+    archivContentRef.innerHTML = "";
 
-    for (let indexArchiveNote = 0; indexArchiveNote < archiveNotes.length; indexArchiveNote++) {
-        archiveContentRef.innerHTML += getArchiveNoteTemplate(indexArchiveNote);
+    for (let indexArchivNote = 0; indexArchivNote < archivNotes.length; indexArchivNote++) {
+        archivContentRef.innerHTML += getArchivNoteTemplate(indexArchivNote);
     }
 }
 
@@ -117,22 +164,22 @@ function getNoteTemplate(indexNote) {
     <div class="content_item">
         <h3>${notes[indexNote].title}</h3>
         <p>${notes[indexNote].text}</p>
-        <button onclick="noteToArchive(${indexNote})">🗂️</button>
+        <button onclick="noteToArchiv(${indexNote})">🗂️</button>
         <button onclick="noteFromNotesToTrash(${indexNote})">❌ -> 🗑️</button>
     </div>`;
 }
 
-// {/* <button onclick="noteToArchive(${indexNote})">🗂️</button> */}
+// {/* <button onclick="noteToArchiv(${indexNote})">🗂️</button> */}
 
-function getArchiveNoteTemplate(indexArchiveNote) {
+function getArchivNoteTemplate(indexArchivNote) {
     return `
     <div class="content_item">
-        <div id="archive_content_item_the_text">
-            <h3>${archiveNotes[indexArchiveNote].title}</h3>
-            <p>${archiveNotes[indexArchiveNote].text}</p>
+        <div id="archiv_content_item_the_text">
+            <h3>${archivNotes[indexArchivNote].title}</h3>
+            <p>${archivNotes[indexArchivNote].text}</p>
         </div >
-        <button onclick="pushNoteFromArchiveBackToTheAnotherNotes(${indexArchiveNote})">↩️</button>
-        <button onclick="noteFromArchiveToTrash(${indexArchiveNote})">❌ -> 🗑️</button>
+        <button onclick="pushNoteFromArchivBackToTheAnotherNotes(${indexArchivNote})">↩️</button>
+        <button onclick="noteFromArchivToTrash(${indexArchivNote})">❌ -> 🗑️</button>
     </div > `;
 }
 
@@ -192,19 +239,19 @@ function addNote() {
 
 // MOVE FUNCTIONS
 
-function noteToArchive(indexNote) {
-    let toArchiveNote = notes.splice(indexNote, 1)[0];
-    archiveNotes.push(toArchiveNote);
+function noteToArchiv(indexNote) {
+    let toArchivNote = notes.splice(indexNote, 1)[0];
+    archivNotes.push(toArchivNote);
     saveToLocalStorage();
     renderNotes();
-    renderArchiveNotes();
+    renderArchivNotes();
 }
 
-function pushNoteFromArchiveBackToTheAnotherNotes(indexArchiveNote) {
-    let sendNoteBackToTheAnotherNotes = archiveNotes.splice(indexArchiveNote, 1)[0];
+function pushNoteFromArchivBackToTheAnotherNotes(indexArchivNote) {
+    let sendNoteBackToTheAnotherNotes = archivNotes.splice(indexArchivNote, 1)[0];
     notes.push(sendNoteBackToTheAnotherNotes);
     renderNotes();
-    renderArchiveNotes();
+    renderArchivNotes();
     saveToLocalStorage();
 }
 
@@ -216,10 +263,10 @@ function pushNoteFromTrashBackToTheAnotherNotes(indexTrashNote) {
     saveToLocalStorage();
 }
 
-function noteFromArchiveToTrash(indexArchiveNote) {
-    let trashNoteFromArchive = archiveNotes.splice(indexArchiveNote, 1)[0];
-    trashNotes.push(trashNoteFromArchive);
-    renderArchiveNotes();
+function noteFromArchivToTrash(indexArchivNote) {
+    let trashNoteFromArchiv = archivNotes.splice(indexArchivNote, 1)[0];
+    trashNotes.push(trashNoteFromArchiv);
+    renderArchivNotes();
     renderTrashNotes();
     saveToLocalStorage();
 }
@@ -263,20 +310,20 @@ function closeDialog() {
     dlg.close();
 }
 
-function closeArchiveDialog() {
-    if (!archiveDialog) {
+function closeArchivDialog() {
+    if (!archivDialog) {
         console.error("Dialog element not found!");
         return;
     }
-    archiveDialog.close();
+    archivDialog.close();
 }
 
-function showArchiveDialog() {
-    if (!archiveDialog) {
+function showArchivDialog() {
+    if (!archivDialog) {
         console.error("Dialog element not found!");
         return;
     }
-    archiveDialog.showModal();
+    archivDialog.showModal();
 }
 
 function closeTrashDialog() {

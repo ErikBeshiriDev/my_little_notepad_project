@@ -1,6 +1,6 @@
 .myDialog,
 .myTrashDialog,
-.myArchiveDialog[open] {
+.myArchivDialog[open] {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -9,7 +9,7 @@
 
 .myDialog,
 .myTrashDialog,
-.myArchiveDialog {
+.myArchivDialog {
   height: 80vh;
   width: 90%;
   display: flex;
@@ -32,20 +32,20 @@
 
 .myDialog button,
 .myTrashDialog button,
-.myArchiveDialog button {
+.myArchivDialog button {
 display: flex;
 align-self: flex-end;
 }
 
 .myDialog::backdrop,
 .myTrashDialog::backdrop,
-.myArchiveDialog::backdrop {
+.myArchivDialog::backdrop {
   background: rgba(0, 0, 0, 0.35);
 }
 
 .myDialog:not([open]),
 .myTrashDialog:not([open]),
-.myArchiveDialog:not([open]) {
+.myArchivDialog:not([open]) {
   display: none;
 }
 
